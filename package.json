@@ -4,6 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
+        "serve": "cd backend && uvicorn main:app --reload",
         "dev": "vite",
         "build": "vue-tsc -b && vite build",
         "preview": "vite preview",
