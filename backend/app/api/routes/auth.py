@@ -4,7 +4,7 @@ from datetime import timedelta
 from app.core.auth import authenticate_user, create_access_token, get_password_hash
 from app.core.config import settings
 from app.core.database import get_database
-from app.models.user import User, UserCreate, UserLogin, UserResponse
+from app.models.user import User, UserCreate, UserLogin, UserResponse, UserProfile
 from pydantic import BaseModel
 from datetime import datetime, timezone
 
@@ -15,7 +15,7 @@ class Token(BaseModel):
     token_type: str
 
 class TokenData(BaseModel):
-    email: str = None
+    email: str = ""
 
 @router.post("/register", response_model=UserResponse)
 async def register_user(user: UserCreate, db = Depends(get_database)):
@@ -34,12 +34,12 @@ async def register_user(user: UserCreate, db = Depends(get_database)):
     new_user = User(
         email=user.email,
         hashed_password=hashed_password,
-        profile={
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "university": user.university,
-            "major": user.major
-        }
+        profile=UserProfile(
+            first_name=user.first_name,
+            last_name=user.last_name,
+            university=user.university,
+            major=user.major
+        )
     )
 
     # Insert user into database
