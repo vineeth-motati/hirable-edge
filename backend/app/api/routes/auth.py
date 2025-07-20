@@ -6,6 +6,7 @@ from app.core.config import settings
 from app.core.database import get_database
 from app.models.user import User, UserCreate, UserLogin, UserResponse
 from pydantic import BaseModel
+from datetime import datetime, timezone
 
 router = APIRouter()
 
@@ -70,7 +71,7 @@ async def login_user(user: UserLogin, db = Depends(get_database)):
     # Update last login
     await db.users.update_one(
         {"_id": authenticated_user.id},
-        {"$set": {"last_login": User().updated_at}}
+        {"$set": {"last_login": datetime.now(timezone.utc)}}
     )
 
     return {"access_token": access_token, "token_type": "bearer"}
