@@ -56,3 +56,5 @@ backend/.pdm.lock
 
 # VS Code specific for Python (optional)
 backend/.vscode/
+backend/app/api/routes/__pycache__/
+backend/app/core/__pycache__/
